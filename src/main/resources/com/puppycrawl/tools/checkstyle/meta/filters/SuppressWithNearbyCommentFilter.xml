@@ -53,6 +53,16 @@
             <property name="messageFormat" type="java.util.regex.Pattern">
                <description>Define message pattern to suppress.</description>
             </property>
+            <property default-value="false"
+                      name="reportUnusedSuppressions"
+                      type="boolean">
+               <description>Enables reporting of recognized markers that match no original violation.</description>
+            </property>
+            <property default-value="error"
+                      name="severity"
+                      type="com.puppycrawl.tools.checkstyle.api.SeverityLevel">
+               <description>Sets the severity for unused-marker findings.</description>
+            </property>
          </properties>
       </filter>
    </module>

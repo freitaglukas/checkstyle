@@ -1,5 +1,7 @@
 /*
 SuppressWithNearbyCommentFilter
+reportUnusedSuppressions = (default)false
+severity = (default)error
 commentFormat = @cs-: (\\w+) \\(\\w+\\)
 checkFormat = MemberNameCheck
 messageFormat = (default)(null)

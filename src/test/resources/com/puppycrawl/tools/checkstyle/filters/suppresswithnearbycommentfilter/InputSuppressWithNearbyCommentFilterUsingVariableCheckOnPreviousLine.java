@@ -1,5 +1,7 @@
 /*
 SuppressWithNearbyCommentFilter
+reportUnusedSuppressions = (default)false
+severity = (default)error
 commentFormat = ALLOW (\\w+) ON PREVIOUS LINE
 checkFormat = $1
 messageFormat = (default)(null)

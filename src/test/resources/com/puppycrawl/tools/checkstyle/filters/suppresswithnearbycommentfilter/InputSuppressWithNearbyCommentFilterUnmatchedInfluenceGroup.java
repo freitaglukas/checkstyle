@@ -1,5 +1,7 @@
 /*
 SuppressWithNearbyCommentFilter
+reportUnusedSuppressions = (default)false
+severity = (default)error
 commentFormat = -@csoff\\[(MoveVariableInside\\((If\\|Else)\\))(?:\\|(\\w+))?\\]\\((\\d+)\\) .{10,}
 checkFormat = (default).*
 messageFormat = (default)(null)

@@ -50,79 +50,79 @@ public class SuppressWithNearbyCommentFilterTest
     extends AbstractModuleTestSupport {
 
     private static final String[] ALL_MESSAGES = {
-        "46:17: "
+        "48:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-        "49:17: "
+        "51:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-        "50:59: "
+        "52:59: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "A3", "^[a-z][a-zA-Z0-9]*$"),
-        "53:17: "
+        "55:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "B1", "^[a-z][a-zA-Z0-9]*$"),
-        "56:17: "
+        "58:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "B2", "^[a-z][a-zA-Z0-9]*$"),
-        "57:59: "
+        "59:59: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "B3", "^[a-z][a-zA-Z0-9]*$"),
-        "59:17: "
-            + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "C1", "^[a-z][a-zA-Z0-9]*$"),
         "61:17: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "C2", "^[a-z][a-zA-Z0-9]*$"),
-        "62:17: "
+                MSG_INVALID_PATTERN, "C1", "^[a-z][a-zA-Z0-9]*$"),
+        "63:17: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "C3", "^[a-z][a-zA-Z0-9]*$"),
+                MSG_INVALID_PATTERN, "C2", "^[a-z][a-zA-Z0-9]*$"),
         "64:17: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "D1", "^[a-z][a-zA-Z0-9]*$"),
-        "65:17: "
+                MSG_INVALID_PATTERN, "C3", "^[a-z][a-zA-Z0-9]*$"),
+        "66:17: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "D2", "^[a-z][a-zA-Z0-9]*$"),
+                MSG_INVALID_PATTERN, "D1", "^[a-z][a-zA-Z0-9]*$"),
         "67:17: "
             + getCheckMessage(AbstractNameCheck.class,
+                MSG_INVALID_PATTERN, "D2", "^[a-z][a-zA-Z0-9]*$"),
+        "69:17: "
+            + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "D3", "^[a-z][a-zA-Z0-9]*$"),
-        "69:30: "
+        "71:30: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "e1", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-        "70:17: "
+        "72:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "E2", "^[a-z][a-zA-Z0-9]*$"),
-        "73:17: "
-            + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "E3", "^[a-z][a-zA-Z0-9]*$"),
-        "74:30: "
-            + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "e4", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
         "75:17: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "E5", "^[a-z][a-zA-Z0-9]*$"),
+                MSG_INVALID_PATTERN, "E3", "^[a-z][a-zA-Z0-9]*$"),
         "76:30: "
             + getCheckMessage(AbstractNameCheck.class,
-                MSG_INVALID_PATTERN, "e6", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
+                MSG_INVALID_PATTERN, "e4", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
         "77:17: "
             + getCheckMessage(AbstractNameCheck.class,
+                MSG_INVALID_PATTERN, "E5", "^[a-z][a-zA-Z0-9]*$"),
+        "78:30: "
+            + getCheckMessage(AbstractNameCheck.class,
+                MSG_INVALID_PATTERN, "e6", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
+        "79:17: "
+            + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "E7", "^[a-z][a-zA-Z0-9]*$"),
-        "78:17: "
+        "80:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "E8", "^[a-z][a-zA-Z0-9]*$"),
-        "80:30: "
+        "82:30: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "e9", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-        "100:23: "
-            + getCheckMessage(IllegalCatchCheck.class, IllegalCatchCheck.MSG_KEY, "Exception"),
         "102:23: "
-            + getCheckMessage(IllegalCatchCheck.class, IllegalCatchCheck.MSG_KEY, "Throwable"),
-        "109:11: "
             + getCheckMessage(IllegalCatchCheck.class, IllegalCatchCheck.MSG_KEY, "Exception"),
-        "117:59: "
+        "104:23: "
+            + getCheckMessage(IllegalCatchCheck.class, IllegalCatchCheck.MSG_KEY, "Throwable"),
+        "111:11: "
+            + getCheckMessage(IllegalCatchCheck.class, IllegalCatchCheck.MSG_KEY, "Exception"),
+        "119:59: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-        "118:17: "
+        "120:17: "
             + getCheckMessage(AbstractNameCheck.class,
                 MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
     };
@@ -220,25 +220,25 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testDefault() throws Exception {
         final String[] suppressed = {
-            "46:17: "
+            "48:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "49:17: "
+            "51:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-            "50:59: "
+            "52:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A3", "^[a-z][a-zA-Z0-9]*$"),
-            "53:17: "
+            "55:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B1", "^[a-z][a-zA-Z0-9]*$"),
-            "56:17: "
+            "58:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B2", "^[a-z][a-zA-Z0-9]*$"),
-            "57:59: "
+            "59:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B3", "^[a-z][a-zA-Z0-9]*$"),
-            "117:59: "
+            "119:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -249,10 +249,10 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testCheckC() throws Exception {
         final String[] suppressed = {
-            "46:17: "
+            "48:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "53:17: "
+            "55:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B1", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -263,19 +263,19 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testCheckCpp() throws Exception {
         final String[] suppressed = {
-            "49:17: "
+            "51:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-            "50:59: "
+            "52:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A3", "^[a-z][a-zA-Z0-9]*$"),
-            "56:17: "
+            "58:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B2", "^[a-z][a-zA-Z0-9]*$"),
-            "57:59: "
+            "59:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B3", "^[a-z][a-zA-Z0-9]*$"),
-            "117:59: "
+            "119:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -286,10 +286,10 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testUsingVariableMessage() throws Exception {
         final String[] suppressed = {
-            "102:23: "
+            "104:23: "
                 + getCheckMessage(IllegalCatchCheck.class,
                     IllegalCatchCheck.MSG_KEY, "Throwable"),
-            "109:11: "
+            "111:11: "
                 + getCheckMessage(IllegalCatchCheck.class,
                     IllegalCatchCheck.MSG_KEY, "Exception"),
         };
@@ -308,7 +308,7 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testUsingVariableCheckOnNextLine() throws Exception {
         final String[] suppressed = {
-            "61:17: "
+            "63:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "C2", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -320,7 +320,7 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testUsingVariableCheckOnPreviousLine() throws Exception {
         final String[] suppressed = {
-            "65:17: "
+            "67:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "D2", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -332,16 +332,16 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testVariableCheckOnVariableNumberOfLines() throws Exception {
         final String[] suppressed = {
-            "74:30: "
+            "76:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "e4", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "75:17: "
-                + getCheckMessage(AbstractNameCheck.class,
-                    MSG_INVALID_PATTERN, "E5", "^[a-z][a-zA-Z0-9]*$"),
             "77:17: "
                 + getCheckMessage(AbstractNameCheck.class,
+                    MSG_INVALID_PATTERN, "E5", "^[a-z][a-zA-Z0-9]*$"),
+            "79:17: "
+                + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "E7", "^[a-z][a-zA-Z0-9]*$"),
-            "78:17: "
+            "80:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "E8", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -354,10 +354,10 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testUnmatchedInfluenceGroup() {
         final String[] violationAndSuppressedMessages = {
-            "33:17: "
+            "35:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "InvalidIfName", "^[a-z][a-zA-Z0-9]*$"),
-            "34:16: "
+            "36:16: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "InvalidElseName", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -433,28 +433,28 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testInfluenceFormat() throws Exception {
         final String[] suppressed = {
-            "46:17: "
+            "48:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "49:17: "
+            "51:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-            "50:59: "
+            "52:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A3", "^[a-z][a-zA-Z0-9]*$"),
-            "53:17: "
+            "55:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B1", "^[a-z][a-zA-Z0-9]*$"),
-            "56:17: "
+            "58:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B2", "^[a-z][a-zA-Z0-9]*$"),
-            "57:59: "
+            "59:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "B3", "^[a-z][a-zA-Z0-9]*$"),
-            "117:59: "
+            "119:59: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A2", "^[a-z][a-zA-Z0-9]*$"),
-            "118:17: "
+            "120:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -566,36 +566,36 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testSuppressByCheck() throws Exception {
         final String[] suppressedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
         };
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -607,36 +607,36 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testSuppressById() throws Exception {
         final String[] suppressedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
         };
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -648,36 +648,36 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void testSuppressByCheckAndId() throws Exception {
         final String[] suppressedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
         };
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -691,25 +691,25 @@ public class SuppressWithNearbyCommentFilterTest
     public void testSuppressByCheckAndNonMatchingId() throws Exception {
         final String[] suppressedViolationMessages = CommonUtil.EMPTY_STRING_ARRAY;
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -722,30 +722,30 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void tesSuppressByIdAndMessage() throws Exception {
         final String[] suppressedViolationMessages = {
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
         };
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };
@@ -758,30 +758,30 @@ public class SuppressWithNearbyCommentFilterTest
     @Test
     public void tesSuppressByCheckAndMessage() throws Exception {
         final String[] suppressedViolationMessages = {
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
         };
         final String[] expectedViolationMessages = {
-            "41:17: "
+            "43:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "A1", "^[a-z][a-zA-Z0-9]*$"),
-            "44:30: "
+            "46:30: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "abc", "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"),
-            "47:9: "
+            "49:9: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "line_length", "^[a-z][a-zA-Z0-9]*$"),
-            "50:18: "
+            "52:18: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID", "^[a-z][a-zA-Z0-9]*$"),
-            "52:57: "
+            "54:57: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "ID3", "^[a-z][a-zA-Z0-9]*$"),
-            "55:17: "
+            "57:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "DEF", "^[a-z][a-zA-Z0-9]*$"),
-            "58:17: "
+            "60:17: "
                 + getCheckMessage(AbstractNameCheck.class,
                     MSG_INVALID_PATTERN, "XYZ", "^[a-z][a-zA-Z0-9]*$"),
         };

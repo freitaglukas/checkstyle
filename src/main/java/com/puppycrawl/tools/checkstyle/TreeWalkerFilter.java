@@ -19,6 +19,12 @@
 
 package com.puppycrawl.tools.checkstyle;
 
+import java.util.Collections;
+import java.util.SortedSet;
+
+import com.puppycrawl.tools.checkstyle.api.FileContents;
+import com.puppycrawl.tools.checkstyle.api.Violation;
+
 /**
  * An interface for filtering {@code TreeWalkerAuditEvent}.
  *
@@ -37,5 +43,27 @@ public interface TreeWalkerFilter {
      *     the final report; false to suppress the event.
      */
     boolean accept(TreeWalkerAuditEvent treeWalkerAuditEvent);
+
+    /**
+     * Whether this filter needs a final report for each successfully parsed file.
+     *
+     * @return whether file reporting is enabled
+     */
+    default boolean isFileReportRequired() {
+        return false;
+    }
+
+    /**
+     * Reports findings after ordinary filtering, using an immutable snapshot of
+     * original violations. Reported findings do not pass through TreeWalker filters.
+     *
+     * @param contents successfully parsed file contents
+     * @param rawViolations complete original violations before filtering
+     * @return additional findings for this file
+     */
+    default SortedSet<Violation> getFileReport(
+            FileContents contents, SortedSet<Violation> rawViolations) {
+        return Collections.emptySortedSet();
+    }
 
 }

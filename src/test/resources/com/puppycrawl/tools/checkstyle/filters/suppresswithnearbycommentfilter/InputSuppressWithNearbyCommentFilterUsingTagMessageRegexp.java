@@ -1,5 +1,7 @@
 /*
 SuppressWithNearbyCommentFilter
+reportUnusedSuppressions = (default)false
+severity = (default)error
 commentFormat = (default)SUPPRESS CHECKSTYLE (\\w+)
 checkFormat = IllegalCatchCheck
 messageFormat = ^$1 ololo*$

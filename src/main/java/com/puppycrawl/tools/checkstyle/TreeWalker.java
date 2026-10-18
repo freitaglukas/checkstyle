@@ -22,6 +22,7 @@ package com.puppycrawl.tools.checkstyle;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +73,9 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
 
     /** The ast filters. */
     private final Set<TreeWalkerFilter> filters = new HashSet<>();
+
+    /** Filters that have opted into per-file reporting. */
+    private final Set<TreeWalkerFilter> fileReporters = new HashSet<>();
 
     /** The sorted set of violations. */
     private final SortedSet<Violation> violations = new TreeSet<>();
@@ -157,7 +161,12 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
                 check.init();
                 registerCheck(check);
             }
-            case TreeWalkerFilter filter -> filters.add(filter);
+            case TreeWalkerFilter filter -> {
+                filters.add(filter);
+                if (filter.isFileReportRequired()) {
+                    fileReporters.add(filter);
+                }
+            }
             case null, default -> throw new CheckstyleException(
                     "TreeWalker is not allowed as a parent of " + name
                             + " Please review 'Parent Module' section for this Check in web"
@@ -175,7 +184,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
     @Override
     protected void processFiltered(File file, FileText fileText) throws CheckstyleException {
         // check if already checked and passed the file
-        if (!ordinaryChecks.isEmpty() || !commentChecks.isEmpty()) {
+        if (!ordinaryChecks.isEmpty() || !commentChecks.isEmpty() || !fileReporters.isEmpty()) {
             final FileContents contents = getFileContents();
             DetailAST rootAST = null;
             // whether skip the procedure after parsing Java files.
@@ -203,6 +212,13 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
                     final DetailAST astWithComments = JavaParser.appendHiddenCommentNodes(rootAST);
                     walk(astWithComments, contents, AstState.WITH_COMMENTS);
                 }
+                final SortedSet<Violation> rawViolations;
+                if (fileReporters.isEmpty()) {
+                    rawViolations = Collections.emptySortedSet();
+                }
+                else {
+                    rawViolations = Collections.unmodifiableSortedSet(new TreeSet<>(violations));
+                }
                 if (filters.isEmpty()) {
                     addViolations(violations);
                 }
@@ -210,6 +226,9 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
                     final SortedSet<Violation> filteredViolations =
                             getFilteredViolations(file.getAbsolutePath(), contents, rootAST);
                     addViolations(filteredViolations);
+                }
+                for (TreeWalkerFilter reporter : fileReporters) {
+                    addViolations(reporter.getFileReport(contents, rawViolations));
                 }
             }
             violations.clear();

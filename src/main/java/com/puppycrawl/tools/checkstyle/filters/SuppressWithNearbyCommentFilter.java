@@ -21,8 +21,11 @@ package com.puppycrawl.tools.checkstyle.filters;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -33,7 +36,9 @@ import com.puppycrawl.tools.checkstyle.TreeWalkerAuditEvent;
 import com.puppycrawl.tools.checkstyle.TreeWalkerFilter;
 import com.puppycrawl.tools.checkstyle.XdocsPropertyType;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
+import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
+import com.puppycrawl.tools.checkstyle.api.Violation;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.WeakReferenceHolder;
 
@@ -121,6 +126,12 @@ public class SuppressWithNearbyCommentFilter
      */
     private String influenceFormat = DEFAULT_INFLUENCE_FORMAT;
 
+    /** Opt-in prototype reporting for markers matching no original violation. */
+    private boolean reportUnusedSuppressions;
+
+    /** Severity for unused-marker findings. */
+    private SeverityLevel severity = SeverityLevel.ERROR;
+
     /**
      * Creates a new {@code SuppressWithNearbyCommentFilter} instance.
      */
@@ -202,6 +213,51 @@ public class SuppressWithNearbyCommentFilter
         this.checkC = checkC;
     }
 
+    /**
+     * Enables reporting of recognized markers that match no original violation.
+     *
+     * @param report whether to report unused markers
+     */
+    public void setReportUnusedSuppressions(boolean report) {
+        reportUnusedSuppressions = report;
+    }
+
+    /**
+     * Sets the severity for unused-marker findings.
+     *
+     * @param severity severity to use
+     */
+    public void setSeverity(SeverityLevel severity) {
+        this.severity = severity;
+    }
+
+    @Override
+    public boolean isFileReportRequired() {
+        return reportUnusedSuppressions && severity != SeverityLevel.IGNORE;
+    }
+
+    @Override
+    public SortedSet<Violation> getFileReport(
+            FileContents contents, SortedSet<Violation> rawViolations) {
+        final SortedSet<Violation> result;
+        if (isFileReportRequired()) {
+            fileContentsHolder.lazyUpdate(contents, this::tagSuppressions);
+            result = new TreeSet<>();
+            for (Tag tag : tags) {
+                if (rawViolations.stream().noneMatch(tag::isMatch)) {
+                    result.add(new Violation(tag.commentLine, tag.commentColumn + 1,
+                            "com.puppycrawl.tools.checkstyle.filters.messages",
+                            "suppression.unused", new Object[0], severity, null,
+                            SuppressWithNearbyCommentFilter.class, null));
+                }
+            }
+        }
+        else {
+            result = Collections.emptySortedSet();
+        }
+        return result;
+    }
+
     @Override
     protected void finishLocalSetup() {
         // No code by default
@@ -262,9 +318,9 @@ public class SuppressWithNearbyCommentFilter
         for (final TextBlock comment : comments) {
             final int startLineNo = comment.getStartLineNo();
             final String[] text = comment.getText();
-            tagCommentLine(text[0], startLineNo);
+            tagCommentLine(text[0], startLineNo, comment.getStartColNo());
             for (int index = 1; index < text.length; index++) {
-                tagCommentLine(text[index], startLineNo + index);
+                tagCommentLine(text[index], startLineNo + index, 0);
             }
         }
     }
@@ -275,11 +331,12 @@ public class SuppressWithNearbyCommentFilter
      *
      * @param text the string to tag.
      * @param line the line number of text.
+     * @param column the starting source column of text
      */
-    private void tagCommentLine(String text, int line) {
+    private void tagCommentLine(String text, int line, int column) {
         final Matcher matcher = commentFormat.matcher(text);
         if (matcher.find()) {
-            addTag(matcher.group(0), line);
+            addTag(matcher.group(0), line, column + matcher.start());
         }
     }
 
@@ -288,9 +345,10 @@ public class SuppressWithNearbyCommentFilter
      *
      * @param text the text of the tag.
      * @param line the line number of the tag.
+     * @param column source column of the tag
      */
-    private void addTag(String text, int line) {
-        final Tag tag = new Tag(text, line, this);
+    private void addTag(String text, int line, int column) {
+        final Tag tag = new Tag(text, line, column, this);
         tags.add(tag);
     }
 
@@ -301,6 +359,12 @@ public class SuppressWithNearbyCommentFilter
 
         /** The text of the tag. */
         private final String text;
+
+        /** Actual marker line, independent of its influence range. */
+        private final int commentLine;
+
+        /** Actual marker column, counting from zero. */
+        private final int commentColumn;
 
         /** The first line where warnings may be suppressed. */
         private final int firstLine;
@@ -322,11 +386,14 @@ public class SuppressWithNearbyCommentFilter
          *
          * @param text the text of the suppression.
          * @param line the line number.
+         * @param column source column of the marker
          * @param filter the {@code SuppressWithNearbyCommentFilter} with the context
          * @throws IllegalArgumentException if unable to parse expanded text.
          */
-        private Tag(String text, int line, SuppressWithNearbyCommentFilter filter) {
+        private Tag(String text, int line, int column, SuppressWithNearbyCommentFilter filter) {
             this.text = text;
+            commentLine = line;
+            commentColumn = column;
 
             // Expand regexp for check and message
             // Does not intern Patterns with Utils.getPattern()
@@ -401,6 +468,8 @@ public class SuppressWithNearbyCommentFilter
             final Tag tag = (Tag) other;
             return firstLine == tag.firstLine
                     && lastLine == tag.lastLine
+                    && commentLine == tag.commentLine
+                    && commentColumn == tag.commentColumn
                     && Objects.equals(text, tag.text)
                     && Objects.equals(tagCheckRegexp, tag.tagCheckRegexp)
                     && Objects.equals(tagMessageRegexp, tag.tagMessageRegexp)
@@ -409,8 +478,8 @@ public class SuppressWithNearbyCommentFilter
 
         @Override
         public int hashCode() {
-            return Objects.hash(text, firstLine, lastLine, tagCheckRegexp, tagMessageRegexp,
-                    tagIdRegexp);
+            return Objects.hash(text, firstLine, lastLine, commentLine, commentColumn,
+                    tagCheckRegexp, tagMessageRegexp, tagIdRegexp);
         }
 
         /**
@@ -420,48 +489,58 @@ public class SuppressWithNearbyCommentFilter
          * @return true if the source of event matches the text of this tag.
          */
         /* package */ boolean isMatch(TreeWalkerAuditEvent event) {
-            return isInScopeOfSuppression(event)
-                    && isCheckMatch(event)
-                    && isIdMatch(event)
-                    && isMessageMatch(event);
+            return isMatch(event.violation());
         }
 
         /**
-         * Checks whether the {@link TreeWalkerAuditEvent} is in the scope of the suppression.
+         * Matches an original violation using the same predicate as ordinary filtering.
          *
-         * @param event {@code TreeWalkerAuditEvent} instance.
-         * @return true if the {@code TreeWalkerAuditEvent} is in the scope of the suppression.
+         * @param violation original violation
+         * @return whether this marker matches the violation
          */
-        private boolean isInScopeOfSuppression(TreeWalkerAuditEvent event) {
-            final int line = event.getLine();
+        private boolean isMatch(Violation violation) {
+            return isInScopeOfSuppression(violation)
+                    && isCheckMatch(violation)
+                    && isIdMatch(violation)
+                    && isMessageMatch(violation);
+        }
+
+        /**
+         * Checks whether the violation is in the scope of the suppression.
+         *
+         * @param violation original violation
+         * @return whether the violation is in the scope of the suppression
+         */
+        private boolean isInScopeOfSuppression(Violation violation) {
+            final int line = violation.getLineNo();
             return line >= firstLine && line <= lastLine;
         }
 
         /**
-         * Checks whether {@link TreeWalkerAuditEvent} source name matches the check format.
+         * Checks whether the violation source name matches the check format.
          *
-         * @param event {@code TreeWalkerAuditEvent} instance.
+         * @param violation original violation
          * @return true if the {@code TreeWalkerAuditEvent} source name matches the check format.
          */
-        private boolean isCheckMatch(TreeWalkerAuditEvent event) {
-            final Matcher checkMatcher = tagCheckRegexp.matcher(event.getSourceName());
+        private boolean isCheckMatch(Violation violation) {
+            final Matcher checkMatcher = tagCheckRegexp.matcher(violation.getSourceName());
             return checkMatcher.find();
         }
 
         /**
-         * Checks whether the {@link TreeWalkerAuditEvent} module ID matches the ID format.
+         * Checks whether the violation module ID matches the ID format.
          *
-         * @param event {@code TreeWalkerAuditEvent} instance.
+         * @param violation original violation
          * @return true if the {@code TreeWalkerAuditEvent} module ID matches the ID format.
          */
-        private boolean isIdMatch(TreeWalkerAuditEvent event) {
+        private boolean isIdMatch(Violation violation) {
             boolean match = true;
             if (tagIdRegexp != null) {
-                if (event.getModuleId() == null) {
+                if (violation.getModuleId() == null) {
                     match = false;
                 }
                 else {
-                    final Matcher idMatcher = tagIdRegexp.matcher(event.getModuleId());
+                    final Matcher idMatcher = tagIdRegexp.matcher(violation.getModuleId());
                     match = idMatcher.find();
                 }
             }
@@ -469,15 +548,15 @@ public class SuppressWithNearbyCommentFilter
         }
 
         /**
-         * Checks whether the {@link TreeWalkerAuditEvent} message matches the message format.
+         * Checks whether the violation message matches the message format.
          *
-         * @param event {@code TreeWalkerAuditEvent} instance.
+         * @param violation original violation
          * @return true if the {@code TreeWalkerAuditEvent} message matches the message format.
          */
-        private boolean isMessageMatch(TreeWalkerAuditEvent event) {
+        private boolean isMessageMatch(Violation violation) {
             boolean match = true;
             if (tagMessageRegexp != null) {
-                final Matcher messageMatcher = tagMessageRegexp.matcher(event.getMessage());
+                final Matcher messageMatcher = tagMessageRegexp.matcher(violation.getViolation());
                 match = messageMatcher.find();
             }
             return match;

@@ -1,5 +1,7 @@
 /*
 SuppressWithNearbyCommentFilter
+reportUnusedSuppressions = (default)false
+severity = (default)error
 commentFormat = ALLOW CATCH (\\w+) BECAUSE
 checkFormat = IllegalCatchCheck
 messageFormat = $1
